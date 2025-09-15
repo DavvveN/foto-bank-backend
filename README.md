@@ -10,7 +10,7 @@ It supports user creation, querying, and includes unit tests that can be run loc
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/<your-username>/foto-bank-backend.git
+git clone git@github.com:DavvveN/foto-bank-backend.git
 cd foto-bank-backend
 ``` 
 
