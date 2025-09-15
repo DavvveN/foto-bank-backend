@@ -1,0 +1,53 @@
+name: Python Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: myappdb_test
+          MYSQL_USER: myuser
+          MYSQL_PASSWORD: dbpassword123
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+        ports:
+          - 3306:3306
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pymysql python-dotenv cryptography
+
+    - name: Run tests
+      env:
+        DB_USER: myuser
+        DB_PASSWORD: dbpassword123
+        DB_HOST: 127.0.0.1
+        DB_NAME: myappdb_test
+      run: |
+        source venv/bin/activate
+        pytest tests/
