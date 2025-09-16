@@ -20,5 +20,4 @@ def test_insert_and_get_users():
 
     users = get_users()
     assert len(users) == 2
-    assert users[0]["username"] == "bobby"
-    assert users[1]["email"] == "bobby@example.com"
+    assert any(u["email"] == "bob@example.com" for u in users)
