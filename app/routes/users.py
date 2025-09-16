@@ -1,13 +1,18 @@
-from fastapi import APIRouter
-from app import crud
+import uuid
+from fastapi import APIRouter, HTTPException
+from app.crud import get_users, insert_user
+from app.models.user import User
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(tags=["users"])
 
-@router.post("/")
-def create_user(name: str, email: str):
-    crud.insert_user(name, email)
-    return {"message": "User created"}
-
-@router.get("/")
+@router.get("/users")
 def list_users():
-    return crud.get_users()
+    return get_users()
+
+@router.post("/users")
+def create_user(user: User):
+    try:
+        insert_user(user)
+        return {"user_id": user.user_id}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
