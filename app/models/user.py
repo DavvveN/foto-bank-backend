@@ -1,9 +1,17 @@
-from sqlalchemy import Column, Integer, String
-from app.database import Base
+from dataclasses import dataclass
+from uuid import UUID
+from pydantic import BaseModel
+from datetime import datetime
+from typing import Dict, Optional
 
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    email = Column(String, unique=True, index=True)
+class User(BaseModel):
+    user_id: Optional[UUID] = None  
+    email: str
+    username: str
+    user_password: str
+    phone_number: Optional[str] = None
+    profile_pic_url: Optional[str] = None
+    metadata: Optional[Dict] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    last_login_at: Optional[datetime] = None

@@ -16,5 +16,5 @@ def get_connection():
         password=DB_PASSWORD,
         database=DB_NAME,
         cursorclass=pymysql.cursors.DictCursor,
-        autocommit=True  # auto-commit so you don't need conn.commit()
+        autocommit=True  
     )
